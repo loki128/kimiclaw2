@@ -1,0 +1,814 @@
+/* ============================================================
+   Cleopatra Delights — Floating Architecture
+   Desktop-first stylesheet
+   All design tokens live in :root custom properties.
+   ============================================================ */
+
+/* ----------------------------------------------------------
+   1. DESIGN TOKENS
+   ---------------------------------------------------------- */
+:root {
+  /* Colours */
+  --clr-bg:          #1a1714;   /* deep matte charcoal — not pure black */
+  --clr-bg-mid:      #1e1b17;   /* slightly lighter layer */
+  --clr-bg-card:     #222018;   /* card surface */
+  --clr-bg-card-alt: #252219;   /* alt card surface for depth */
+  --clr-gold:        #d4af37;   /* warm gold accent */
+  --clr-gold-muted:  #b8952a;   /* secondary gold */
+  --clr-gold-dim:    rgba(212, 175, 55, 0.18); /* subtle gold tint */
+  --clr-text:        #e8e0d0;   /* primary text — warm off-white */
+  --clr-text-muted:  #9a9080;   /* secondary / meta text */
+  --clr-text-faint:  #5a5248;   /* disabled / decorative */
+  --clr-border:      rgba(212, 175, 55, 0.14);
+  --clr-divider:     rgba(212, 175, 55, 0.22);
+
+  /* Typography */
+  --font-serif: Georgia, 'Times New Roman', Times, serif;
+  --font-sans:  'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+  /* Spacing scale (8 px base) */
+  --sp-1:  0.5rem;   /*  8px */
+  --sp-2:  1rem;     /* 16px */
+  --sp-3:  1.5rem;   /* 24px */
+  --sp-4:  2rem;     /* 32px */
+  --sp-5:  3rem;     /* 48px */
+  --sp-6:  4rem;     /* 64px */
+  --sp-7:  6rem;     /* 96px */
+  --sp-8:  8rem;     /* 128px */
+
+  /* Layout */
+  --max-w: 1200px;
+
+  /* Shadows — soft depth layers */
+  --shadow-sm:  0 2px  8px rgba(0, 0, 0, 0.45);
+  --shadow-md:  0 6px 24px rgba(0, 0, 0, 0.55);
+  --shadow-lg:  0 16px 48px rgba(0, 0, 0, 0.65);
+  --shadow-xl:  0 28px 72px rgba(0, 0, 0, 0.72);
+  --shadow-gold-glow: 0 0 0 1px rgba(212, 175, 55, 0.18),
+                      0 8px 32px rgba(0, 0, 0, 0.6);
+
+  /* Motion */
+  --ease-out:       cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out:    cubic-bezier(0.45, 0, 0.55, 1);
+  --dur-reveal:     0.55s;
+  --dur-hover:      0.30s;
+  --dur-transition: 0.40s;
+
+  /* Reveal animation offsets */
+  --reveal-y: 28px;
+}
+
+/* ----------------------------------------------------------
+   2. RESET & BASE
+   ---------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  background-color: var(--clr-bg);
+  color: var(--clr-text);
+  font-family: var(--font-sans);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: var(--clr-gold);
+  text-decoration: none;
+}
+
+a:focus-visible {
+  outline: 2px solid var(--clr-gold);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--clr-gold);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* ----------------------------------------------------------
+   3. TYPOGRAPHY HIERARCHY
+   ---------------------------------------------------------- */
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  font-weight: normal;
+  letter-spacing: 0.02em;
+  line-height: 1.18;
+  color: var(--clr-text);
+}
+
+h1 { font-size: clamp(2.8rem, 5.5vw, 5.5rem); letter-spacing: 0.06em; }
+h2 { font-size: clamp(1.9rem, 3.2vw, 3rem);   letter-spacing: 0.03em; }
+h3 { font-size: clamp(1.2rem, 2vw,   1.75rem); }
+h4 { font-size: 1.1rem; }
+
+p  { font-size: 1rem; color: var(--clr-text-muted); max-width: 62ch; }
+
+.text-gold       { color: var(--clr-gold); }
+.text-muted      { color: var(--clr-text-muted); }
+.text-small      { font-size: 0.8125rem; letter-spacing: 0.06em; text-transform: uppercase; }
+.text-label      { font-family: var(--font-sans); font-size: 0.75rem;
+                   letter-spacing: 0.12em; text-transform: uppercase;
+                   color: var(--clr-gold-muted); }
+
+/* Vertical rhythm */
+.vr-sm  { margin-bottom: var(--sp-2); }
+.vr-md  { margin-bottom: var(--sp-3); }
+.vr-lg  { margin-bottom: var(--sp-5); }
+
+/* ----------------------------------------------------------
+   4. LAYOUT UTILITIES
+   ---------------------------------------------------------- */
+.container {
+  width: 100%;
+  max-width: var(--max-w);
+  margin-inline: auto;
+  padding-inline: var(--sp-5);
+}
+
+section {
+  padding-block: var(--sp-8);
+}
+
+/* ----------------------------------------------------------
+   5. REVEAL ANIMATION SYSTEM
+   Controlled via JS adding .is-visible to .reveal elements.
+   Respects prefers-reduced-motion.
+   ---------------------------------------------------------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(var(--reveal-y));
+  transition:
+    opacity   var(--dur-reveal) var(--ease-out),
+    transform var(--dur-reveal) var(--ease-out);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger helper — data-delay attribute handled in JS */
+.reveal[data-delay="1"] { transition-delay: 0.10s; }
+.reveal[data-delay="2"] { transition-delay: 0.20s; }
+.reveal[data-delay="3"] { transition-delay: 0.30s; }
+.reveal[data-delay="4"] { transition-delay: 0.40s; }
+.reveal[data-delay="5"] { transition-delay: 0.50s; }
+.reveal[data-delay="6"] { transition-delay: 0.60s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ----------------------------------------------------------
+   6. BUTTONS
+   ---------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  padding: 0.85rem 2.25rem;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-hover) var(--ease-out),
+    color            var(--dur-hover) var(--ease-out),
+    box-shadow       var(--dur-hover) var(--ease-out),
+    transform        var(--dur-hover) var(--ease-out);
+}
+
+.btn-primary {
+  background-color: var(--clr-gold);
+  color: var(--clr-bg);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-primary:hover {
+  background-color: #c9a227;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--clr-gold);
+  border: 1px solid var(--clr-divider);
+  box-shadow: none;
+}
+
+.btn-secondary:hover {
+  border-color: var(--clr-gold);
+  box-shadow: 0 0 0 1px var(--clr-gold);
+  transform: translateY(-2px);
+}
+
+/* ----------------------------------------------------------
+   7. HERO SECTION
+   ---------------------------------------------------------- */
+.hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100svh;
+  padding-block: var(--sp-7);
+  overflow: hidden;
+}
+
+/* Architectural grid texture background */
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  background-color: var(--clr-bg);
+  background-image: url('assets/hero-texture.svg');
+  background-size: 80px 80px;
+  opacity: 1;
+  z-index: 0;
+}
+
+/* Vignette overlay */
+.hero__bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 70% at 50% 50%,
+    transparent 30%,
+    rgba(26, 23, 20, 0.82) 100%);
+}
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-4);
+}
+
+.hero__eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--clr-gold-muted);
+  margin-bottom: calc(-1 * var(--sp-2));
+}
+
+.hero__title {
+  font-size: clamp(3rem, 6.5vw, 6.5rem);
+  letter-spacing: 0.1em;
+  color: var(--clr-text);
+  text-shadow: var(--shadow-xl);
+}
+
+.hero__subline {
+  font-family: var(--font-sans);
+  font-size: clamp(0.9rem, 1.4vw, 1.15rem);
+  letter-spacing: 0.14em;
+  color: var(--clr-text-muted);
+  text-transform: uppercase;
+  max-width: none;
+}
+
+.hero__cta {
+  display: flex;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: var(--sp-2);
+}
+
+/* Thin gold horizontal rule accent */
+.hero__rule {
+  width: 48px;
+  height: 1px;
+  background-color: var(--clr-gold);
+  opacity: 0.55;
+}
+
+/* Scroll indicator */
+.hero__scroll {
+  position: absolute;
+  bottom: var(--sp-4);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-1);
+  z-index: 1;
+  opacity: 0.5;
+}
+
+.hero__scroll span {
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--clr-text-muted);
+}
+
+.hero__scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--clr-gold), transparent);
+  animation: scrollPulse 2.2s var(--ease-in-out) infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(0.7); }
+  50%       { opacity: 0.9; transform: scaleY(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__scroll-line { animation: none; opacity: 0.4; }
+}
+
+/* ----------------------------------------------------------
+   8. FLOATING SLAB SECTION
+   ---------------------------------------------------------- */
+.slabs {
+  background-color: var(--clr-bg);
+  overflow: visible;
+}
+
+.slabs__header {
+  margin-bottom: var(--sp-7);
+  text-align: center;
+}
+
+.slabs__grid {
+  display: grid;
+  /* Two columns with staggered vertical positioning via margin-top on odd cards */
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sp-5) var(--sp-4);
+  max-width: var(--max-w);
+  margin-inline: auto;
+}
+
+/* Stagger odd/even rows for the "floating" architectural layout */
+.slab-card:nth-child(odd)  { margin-top: 0; }
+.slab-card:nth-child(even) { margin-top: var(--sp-6); }
+
+.slab-card {
+  background-color: var(--clr-bg-card);
+  box-shadow: var(--shadow-gold-glow);
+  will-change: transform, box-shadow;
+  transition:
+    box-shadow var(--dur-hover) var(--ease-out),
+    transform  var(--dur-hover) var(--ease-out);
+  /* JS sets inline transform for tilt effect */
+}
+
+.slab-card:hover {
+  box-shadow: var(--shadow-xl),
+              0 0 0 1px rgba(212, 175, 55, 0.28);
+}
+
+.slab-card__image-wrap {
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background-color: var(--clr-bg);
+}
+
+.slab-card__image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s var(--ease-out);
+  will-change: transform;
+}
+
+.slab-card:hover .slab-card__image-wrap img {
+  transform: scale(1.04);
+}
+
+.slab-card__body {
+  padding: var(--sp-4) var(--sp-4) var(--sp-5);
+}
+
+.slab-card__tag {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--clr-gold-muted);
+  margin-bottom: var(--sp-2);
+}
+
+.slab-card__title {
+  font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+  margin-bottom: var(--sp-2);
+}
+
+.slab-card__desc {
+  font-size: 0.9rem;
+  color: var(--clr-text-muted);
+  line-height: 1.7;
+  margin-bottom: var(--sp-3);
+  max-width: 38ch;
+}
+
+.slab-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  font-size: 0.8125rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--clr-gold);
+  transition: gap var(--dur-hover) var(--ease-out);
+}
+
+.slab-card__link::after {
+  content: '→';
+  transition: transform var(--dur-hover) var(--ease-out);
+}
+
+.slab-card__link:hover::after {
+  transform: translateX(4px);
+}
+
+/* ----------------------------------------------------------
+   9. ARCHITECTURAL DIVIDER
+   ---------------------------------------------------------- */
+.arch-divider {
+  position: relative;
+  padding-block: var(--sp-6);
+  background-color: var(--clr-bg-mid);
+  overflow: hidden;
+}
+
+.arch-divider__inner {
+  position: relative;
+  max-width: var(--max-w);
+  margin-inline: auto;
+  padding-inline: var(--sp-5);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+}
+
+.arch-divider__line {
+  flex: 1;
+  height: 1px;
+  background-color: var(--clr-divider);
+}
+
+.arch-divider__icon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--clr-divider);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(45deg);
+  color: var(--clr-gold-muted);
+  font-size: 1.1rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.arch-divider__icon span {
+  display: block;
+  transform: rotate(-45deg);
+  font-style: normal;
+}
+
+/* ----------------------------------------------------------
+   10. TONIGHT'S DROP SECTION
+   ---------------------------------------------------------- */
+.tonights-drop {
+  background-color: var(--clr-bg);
+}
+
+.tonights-drop__header {
+  margin-bottom: var(--sp-6);
+}
+
+.tonights-drop__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-4);
+}
+
+/* Product card */
+.product-card {
+  background-color: var(--clr-bg-card-alt);
+  box-shadow: var(--shadow-lg);
+  transition:
+    box-shadow  var(--dur-hover) var(--ease-out),
+    transform   var(--dur-hover) var(--ease-out);
+  overflow: hidden;
+}
+
+.product-card:hover {
+  box-shadow: var(--shadow-xl);
+  transform: translateY(-4px);
+}
+
+.product-card__image-wrap {
+  position: relative;
+  aspect-ratio: 1;
+  background-color: var(--clr-bg);
+  overflow: hidden;
+}
+
+.product-card__image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--ease-out);
+  will-change: transform;
+}
+
+.product-card:hover .product-card__image-wrap img {
+  transform: scale(1.05);
+}
+
+.product-card__badge {
+  position: absolute;
+  top: var(--sp-2);
+  right: var(--sp-2);
+  padding: 0.3rem 0.75rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background-color: var(--clr-gold);
+  color: var(--clr-bg);
+  font-family: var(--font-sans);
+  box-shadow: var(--shadow-sm);
+}
+
+.product-card__badge--limited {
+  background-color: #8b3a0f; /* deep rust — limited urgency */
+  color: #f5ddc0;
+}
+
+.product-card__body {
+  padding: var(--sp-3) var(--sp-4) var(--sp-4);
+}
+
+.product-card__title {
+  font-size: 1.2rem;
+  margin-bottom: var(--sp-1);
+}
+
+.product-card__price {
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  color: var(--clr-gold);
+  margin-bottom: var(--sp-3);
+}
+
+/* Countdown timer */
+.countdown {
+  display: flex;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-3);
+  padding: var(--sp-2) var(--sp-3);
+  background-color: rgba(0,0,0,0.28);
+  border-left: 2px solid var(--clr-gold-dim);
+}
+
+.countdown__unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 36px;
+}
+
+.countdown__number {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  line-height: 1;
+  color: var(--clr-text);
+  letter-spacing: 0.04em;
+}
+
+.countdown__label {
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--clr-text-faint);
+  margin-top: 2px;
+}
+
+.countdown__sep {
+  font-size: 1.2rem;
+  color: var(--clr-text-faint);
+  align-self: flex-start;
+  margin-top: 2px;
+}
+
+/* ----------------------------------------------------------
+   11. BRAND PHILOSOPHY SECTION
+   ---------------------------------------------------------- */
+.philosophy {
+  background-color: var(--clr-bg-mid);
+}
+
+.philosophy__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-6) var(--sp-8);
+  align-items: start;
+}
+
+.philosophy__statement {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 3.5vw, 3.4rem);
+  line-height: 1.14;
+  letter-spacing: 0.02em;
+  color: var(--clr-text);
+}
+
+.philosophy__statement em {
+  color: var(--clr-gold);
+  font-style: normal;
+}
+
+.philosophy__body {
+  padding-top: var(--sp-3);
+}
+
+.philosophy__body p {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--clr-text-muted);
+  max-width: 46ch;
+  margin-bottom: var(--sp-5);
+}
+
+/* Proof cards */
+.proof-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-3);
+  grid-column: 1 / -1;
+  margin-top: var(--sp-4);
+}
+
+.proof-card {
+  background-color: var(--clr-bg-card);
+  padding: var(--sp-4);
+  box-shadow: var(--shadow-md);
+  border-top: 2px solid var(--clr-gold-dim);
+  transition:
+    box-shadow var(--dur-hover) var(--ease-out),
+    transform  var(--dur-hover) var(--ease-out);
+}
+
+.proof-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-3px);
+}
+
+.proof-card__icon {
+  font-size: 1.4rem;
+  margin-bottom: var(--sp-2);
+  color: var(--clr-gold);
+  line-height: 1;
+}
+
+.proof-card__title {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  margin-bottom: var(--sp-1);
+  color: var(--clr-text);
+  letter-spacing: 0.02em;
+}
+
+.proof-card__desc {
+  font-size: 0.875rem;
+  color: var(--clr-text-muted);
+  line-height: 1.65;
+  max-width: none;
+}
+
+/* ----------------------------------------------------------
+   12. SITE FOOTER
+   ---------------------------------------------------------- */
+.site-footer {
+  padding-block: var(--sp-5);
+  border-top: 1px solid var(--clr-border);
+  background-color: var(--clr-bg);
+}
+
+.site-footer__inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+}
+
+.site-footer__brand {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+  color: var(--clr-text-muted);
+}
+
+.site-footer__copy {
+  font-size: 0.75rem;
+  color: var(--clr-text-faint);
+  letter-spacing: 0.08em;
+  max-width: none;
+}
+
+/* ----------------------------------------------------------
+   13. RESPONSIVE — TABLET BREAKPOINT (≤ 960px)
+   ---------------------------------------------------------- */
+@media (max-width: 960px) {
+  :root {
+    --sp-8: 5rem;
+    --sp-7: 4rem;
+  }
+
+  .container {
+    padding-inline: var(--sp-4);
+  }
+
+  .slabs__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .slab-card:nth-child(odd),
+  .slab-card:nth-child(even) {
+    margin-top: 0;
+  }
+
+  .tonights-drop__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .philosophy__inner {
+    grid-template-columns: 1fr;
+    gap: var(--sp-5);
+  }
+
+  .proof-cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ----------------------------------------------------------
+   14. RESPONSIVE — SMALL TABLET (≤ 640px)
+   ---------------------------------------------------------- */
+@media (max-width: 640px) {
+  :root {
+    --sp-7: 3rem;
+    --sp-8: 3.5rem;
+  }
+
+  .tonights-drop__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .proof-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .hero__cta {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .site-footer__inner {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .arch-divider__inner {
+    padding-inline: var(--sp-4);
+  }
+}

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cleopatra Delights — Limited Drops. Global Flavors.</title>
+  <meta name="description"
+        content="Cleopatra Delights — premium, limited-release artisan desserts. Desktop-first floating architecture scaffold." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ================================================================
+       HERO SECTION
+       Full-viewport height, centred title, two CTAs, scroll indicator.
+       ================================================================ -->
+  <section class="hero" aria-label="Hero">
+    <div class="hero__bg" aria-hidden="true"></div>
+
+    <div class="hero__content">
+      <p class="hero__eyebrow reveal" data-delay="0">Est. 2024 · Jacksonville, FL</p>
+
+      <div class="hero__rule reveal" data-delay="1" aria-hidden="true"></div>
+
+      <h1 class="hero__title reveal" data-delay="2">CLEOPATRA DELIGHTS</h1>
+
+      <p class="hero__subline reveal" data-delay="3">Limited drops. Global flavors.</p>
+
+      <div class="hero__cta reveal" data-delay="4">
+        <a href="#tonights-drop" class="btn btn-primary">Shop Tonight's Drop</a>
+        <a href="#slabs" class="btn btn-secondary">Explore Collection</a>
+      </div>
+    </div>
+
+    <!-- Scroll cue -->
+    <div class="hero__scroll" aria-hidden="true">
+      <span>Scroll</span>
+      <div class="hero__scroll-line"></div>
+    </div>
+  </section><!-- /hero -->
+
+
+  <!-- ================================================================
+       FLOATING SLAB SECTION
+       Six large slab cards with high-end dessert imagery.
+       Mouse tilt, hover depth, parallax handled in app.js.
+       ================================================================ -->
+  <section class="slabs" id="slabs" aria-label="Collection">
+    <div class="container">
+
+      <header class="slabs__header">
+        <p class="text-label reveal" data-delay="0">The Collection</p>
+        <h2 class="reveal" data-delay="1">Crafted with intention.</h2>
+      </header>
+
+      <div class="slabs__grid">
+
+        <!-- Card 1 -->
+        <article class="slab-card reveal" data-delay="1" aria-label="Rose Baklava Towers">
+          <div class="slab-card__image-wrap">
+            <img src="assets/slab-1.svg"
+                 alt="Rose Baklava Towers — golden layered pastry with rose petal garnish"
+                 loading="lazy" />
+          </div>
+          <div class="slab-card__body">
+            <span class="slab-card__tag">Pastry · Middle Eastern</span>
+            <h3 class="slab-card__title">Rose Baklava Towers</h3>
+            <p class="slab-card__desc">
+              Layers of hand-rolled phyllo, pistachio dust, and organic rose water.
+              Each tower is built to order.
+            </p>
+            <a href="#" class="slab-card__link">View</a>
+          </div>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="slab-card reveal" data-delay="2" aria-label="Obsidian Tart">
+          <div class="slab-card__image-wrap">
+            <img src="assets/slab-2.svg"
+                 alt="Obsidian Tart — dark chocolate shell with matte ganache"
+                 loading="lazy" />
+          </div>
+          <div class="slab-card__body">
+            <span class="slab-card__tag">Tart · French</span>
+            <h3 class="slab-card__title">Obsidian Tart</h3>
+            <p class="slab-card__desc">
+              Matte dark-chocolate shell encasing a 72% single-origin ganache.
+              No mirror glaze. Pure depth.
+            </p>
+            <a href="#" class="slab-card__link">View</a>
+          </div>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="slab-card reveal" data-delay="3" aria-label="Saffron Mille-Feuille">
+          <div class="slab-card__image-wrap">
+            <img src="assets/slab-3.svg"
+                 alt="Saffron Mille-Feuille — layered cream pastry with gold saffron tones"
+                 loading="lazy" />
+          </div>
+          <div class="slab-card__body">
+            <span class="slab-card__tag">Pastry · Persian</span>
+            <h3 class="slab-card__title">Saffron Mille-Feuille</h3>
+            <p class="slab-card__desc">
+              Burnished rough-puff layers, saffron diplomate cream,
+              and candied kumquat. Afternoon gold in every bite.
+            </p>
+            <a href="#" class="slab-card__link">View</a>
+          </div>
+        </article>
+
+        <!-- Card 4 -->
+        <article class="slab-card reveal" data-delay="4" aria-label="Cardamom Lava Cake">
+          <div class="slab-card__image-wrap">
+            <img src="assets/slab-4.svg"
+                 alt="Cardamom Lava Cake — small chocolate cake with warm centre"
+                 loading="lazy" />
+          </div>
+          <div class="slab-card__body">
+            <span class="slab-card__tag">Warm · South Asian</span>
+            <h3 class="slab-card__title">Cardamom Lava Cake</h3>
+            <p class="slab-card__desc">
+              Bittersweet exterior with a flowing cardamom-spiced
+              centre. Served with cold cultured cream.
+            </p>
+            <a href="#" class="slab-card__link">View</a>
+          </div>
+        </article>
+
+        <!-- Card 5 -->
+        <article class="slab-card reveal" data-delay="5" aria-label="Tahini Basque Cheesecake">
+          <div class="slab-card__image-wrap">
+            <img src="assets/slab-5.svg"
+                 alt="Tahini Basque Cheesecake — deeply burnt top, creamy interior"
+                 loading="lazy" />
+          </div>
+          <div class="slab-card__body">
+            <span class="slab-card__tag">Cheesecake · Basque</span>
+            <h3 class="slab-card__title">Tahini Basque Cheesecake</h3>
+            <p class="slab-card__desc">
+              Deeply-burnt top, cloud-soft interior threaded with
+              unhulled tahini. One of our signature drops.
+            </p>
+            <a href="#" class="slab-card__link">View</a>
+          </div>
+        </article>
+
+        <!-- Card 6 -->
+        <article class="slab-card reveal" data-delay="6" aria-label="Black Sesame Éclair">
+          <div class="slab-card__image-wrap">
+            <img src="assets/slab-6.svg"
+                 alt="Black Sesame Éclair — long choux with black sesame glaze"
+                 loading="lazy" />
+          </div>
+          <div class="slab-card__body">
+            <span class="slab-card__tag">Éclair · Japanese-French</span>
+            <h3 class="slab-card__title">Black Sesame Éclair</h3>
+            <p class="slab-card__desc">
+              Choux shell glazed in black sesame fondant, piped full
+              of fresh vanilla cream. East meets West in a single bite.
+            </p>
+            <a href="#" class="slab-card__link">View</a>
+          </div>
+        </article>
+
+      </div><!-- /slabs__grid -->
+    </div><!-- /container -->
+  </section><!-- /slabs -->
+
+
+  <!-- ================================================================
+       ARCHITECTURAL DIVIDER
+       Subtle tone shift + geometric floating accent.
+       ================================================================ -->
+  <div class="arch-divider" aria-hidden="true">
+    <div class="arch-divider__inner">
+      <div class="arch-divider__line"></div>
+      <div class="arch-divider__icon"><span>✦</span></div>
+      <div class="arch-divider__line"></div>
+    </div>
+  </div>
+
+
+  <!-- ================================================================
+       TONIGHT'S DROP SECTION
+       3-column product grid, stock badge, countdown timers.
+       ================================================================ -->
+  <section class="tonights-drop" id="tonights-drop" aria-label="Tonight's Drop">
+    <div class="container">
+
+      <header class="tonights-drop__header">
+        <p class="text-label reveal" data-delay="0">Limited Availability</p>
+        <h2 class="reveal" data-delay="1">Tonight's Drop</h2>
+        <p class="reveal" data-delay="2">
+          Each item is made in small batches. Once they're gone, they're gone.
+        </p>
+      </header>
+
+      <div class="tonights-drop__grid">
+
+        <!-- Product 1 -->
+        <article class="product-card reveal" data-delay="1" aria-label="Rose Baklava Towers — 4 remaining">
+          <div class="product-card__image-wrap">
+            <img src="assets/drop-1.svg"
+                 alt="Rose Baklava Towers — four-piece box on dark linen"
+                 loading="lazy" />
+            <span class="product-card__badge">4 Remaining</span>
+          </div>
+          <div class="product-card__body">
+            <h3 class="product-card__title">Rose Baklava Towers</h3>
+            <p class="product-card__price">$34 <span class="text-muted text-small">/ box of 4</span></p>
+            <div class="countdown"
+                 role="timer"
+                 aria-label="Time remaining for Rose Baklava Towers drop"
+                 data-target="2026-02-27T02:00:00">
+              <div class="countdown__unit">
+                <span class="countdown__number" data-part="hours">00</span>
+                <span class="countdown__label">hrs</span>
+              </div>
+              <span class="countdown__sep" aria-hidden="true">:</span>
+              <div class="countdown__unit">
+                <span class="countdown__number" data-part="minutes">00</span>
+                <span class="countdown__label">min</span>
+              </div>
+              <span class="countdown__sep" aria-hidden="true">:</span>
+              <div class="countdown__unit">
+                <span class="countdown__number" data-part="seconds">00</span>
+                <span class="countdown__label">sec</span>
+              </div>
+            </div>
+            <a href="#" class="btn btn-primary" style="width:100%;justify-content:center;">
+              Reserve
+            </a>
+          </div>
+        </article>
+
+        <!-- Product 2 -->
+        <article class="product-card reveal" data-delay="2" aria-label="Obsidian Tart — limited release">
+          <div class="product-card__image-wrap">
+            <img src="assets/drop-2.svg"
+                 alt="Obsidian Tart — whole tart on slate"
+                 loading="lazy" />
+            <span class="product-card__badge product-card__badge--limited">Limited</span>
+          </div>
+          <div class="product-card__body">
+            <h3 class="product-card__title">Obsidian Tart</h3>
+            <p class="product-card__price">$48 <span class="text-muted text-small">/ whole tart</span></p>
+            <div class="countdown"
+                 role="timer"
+                 aria-label="Time remaining for Obsidian Tart drop"
+                 data-target="2026-02-27T02:00:00">
+              <div class="countdown__unit">
+                <span class="countdown__number" data-part="hours">00</span>
+                <span class="countdown__label">hrs</span>
+              </div>
+              <span class="countdown__sep" aria-hidden="true">:</span>
+              <div class="countdown__unit">
+                <span class="countdown__number" data-part="minutes">00</span>
+                <span class="countdown__label">min</span>
+              </div>
+              <span class="countdown__sep" aria-hidden="true">:</span>
+              <div class="countdown__unit">
+                <span class="countdown__number" data-part="seconds">00</span>
+                <span class="countdown__label">sec</span>
+              </div>
+            </div>
+            <a href="#" class="btn btn-primary" style="width:100%;justify-content:center;">
+              Reserve
+            </a>
+          </div>
+        </article>
+
+        <!-- Product 3 -->
+        <article class="product-card reveal" data-delay="3" aria-label="Saffron Mille-Feuille — 6 remaining">
+          <div class="product-card__image-wrap">
+            <img src="assets/drop-3.svg"
+                 alt="Saffron Mille-Feuille — individual portion on ceramic plate"
+                 loading="lazy" />
+            <span class="product-card__badge">6 Remaining</span>
+          </div>
+          <div class="product-card__body">
+            <h3 class="product-card__title">Saffron Mille-Feuille</h3>
+            <p class="product-card__price">$22 <span class="text-muted text-small">/ portion</span></p>
+            <div class="countdown"
+                 role="timer"
+                 aria-label="Time remaining for Saffron Mille-Feuille drop"
+                 data-target="2026-02-27T02:00:00">
+              <div class="countdown__unit">
+                <span class="countdown__number" data-part="hours">00</span>
+                <span class="countdown__label">hrs</span>
+              </div>
+              <span class="countdown__sep" aria-hidden="true">:</span>
+              <div class="countdown__unit">
+                <span class="countdown__number" data-part="minutes">00</span>
+                <span class="countdown__label">min</span>
+              </div>
+              <span class="countdown__sep" aria-hidden="true">:</span>
+              <div class="countdown__unit">
+                <span class="countdown__number" data-part="seconds">00</span>
+                <span class="countdown__label">sec</span>
+              </div>
+            </div>
+            <a href="#" class="btn btn-primary" style="width:100%;justify-content:center;">
+              Reserve
+            </a>
+          </div>
+        </article>
+
+      </div><!-- /tonights-drop__grid -->
+    </div><!-- /container -->
+  </section><!-- /tonights-drop -->
+
+
+  <!-- ================================================================
+       BRAND PHILOSOPHY SECTION
+       Large typographic statement + three floating proof cards.
+       ================================================================ -->
+  <section class="philosophy" aria-label="Brand Philosophy">
+    <div class="container">
+      <div class="philosophy__inner">
+
+        <h2 class="philosophy__statement reveal" data-delay="1">
+          We make things<br />
+          that matter —<br />
+          <em>in small batches.</em>
+        </h2>
+
+        <div class="philosophy__body">
+          <p class="reveal" data-delay="2">
+            Every item in the Cleopatra Delights collection is hand-assembled
+            the day of your drop window. No preservatives. No shortcuts.
+            Our sourcing spans three continents and our standard is simple:
+            if it doesn't move us, it doesn't ship.
+          </p>
+          <a href="#" class="btn btn-secondary reveal" data-delay="3">Our Story</a>
+        </div>
+
+        <!-- Proof cards — span full grid width -->
+        <div class="proof-cards">
+
+          <div class="proof-card reveal" data-delay="2">
+            <div class="proof-card__icon" aria-hidden="true">⚗</div>
+            <h4 class="proof-card__title">Small Batch</h4>
+            <p class="proof-card__desc">
+              Every product is made in runs of 12 or fewer. Quantity is a feature,
+              not a limitation.
+            </p>
+          </div>
+
+          <div class="proof-card reveal" data-delay="3">
+            <div class="proof-card__icon" aria-hidden="true">◈</div>
+            <h4 class="proof-card__title">Limited Release</h4>
+            <p class="proof-card__desc">
+              Drop windows close when stock is gone.
+              No restocks, no rain checks.
+            </p>
+          </div>
+
+          <div class="proof-card reveal" data-delay="4">
+            <div class="proof-card__icon" aria-hidden="true">✦</div>
+            <h4 class="proof-card__title">Premium Ingredients</h4>
+            <p class="proof-card__desc">
+              We source single-origin chocolate, estate saffron,
+              and hand-harvested pistachios. The difference is in the detail.
+            </p>
+          </div>
+
+        </div><!-- /proof-cards -->
+
+      </div><!-- /philosophy__inner -->
+    </div><!-- /container -->
+  </section><!-- /philosophy -->
+
+
+  <!-- ================================================================
+       FOOTER
+       ================================================================ -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="site-footer__inner">
+        <span class="site-footer__brand">CLEOPATRA DELIGHTS</span>
+        <p class="site-footer__copy">
+          &copy; 2024 Cleopatra Delights LLC — Jacksonville, FL
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
