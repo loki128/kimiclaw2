@@ -1,0 +1,961 @@
+/*
+ * ============================================================
+ * CLEOPATRA DELIGHTS — styles.css
+ * Floating Architecture · Desktop-First
+ * ============================================================
+ *
+ * TABLE OF CONTENTS
+ * 0.  Custom Properties (Design Tokens)
+ * 1.  Reset & Base
+ * 2.  Typography
+ * 3.  Layout Utilities
+ * 4.  Motion System
+ * 5.  Hero
+ * 6.  Floating Slab Cards
+ * 7.  Architectural Divider
+ * 8.  Tonight's Drop
+ * 9.  Brand Philosophy
+ * 10. Footer
+ * 11. Responsive (tablet + narrow desktop)
+ * ============================================================
+ */
+
+/* ============================================================
+   0. CUSTOM PROPERTIES (Design Tokens)
+   ============================================================ */
+:root {
+  /* — Color palette — */
+  --color-bg:            #1a1a1a;   /* deep matte charcoal – NOT pure black  */
+  --color-bg-raised:     #222222;   /* slightly lifted layer                 */
+  --color-bg-float:      #272727;   /* floating card surface                 */
+  --color-surface:       #2c2c2c;   /* card/section surface                  */
+
+  --color-gold:          #c9a84c;   /* warm subtle gold accent               */
+  --color-gold-muted:    #a8893d;   /* secondary / hover gold                */
+  --color-gold-dim:      rgba(201, 168, 76, 0.12); /* tint for hover bg      */
+
+  --color-text-primary:  #f0ece4;   /* warm off-white – main text            */
+  --color-text-secondary:#a09880;   /* muted warm grey – supporting text     */
+  --color-text-muted:    #5a5650;   /* disabled / placeholder                */
+  --color-border:        rgba(240, 236, 228, 0.08);
+
+  /* — Typography — */
+  --font-serif:   'Georgia', 'Times New Roman', Times, serif;
+  --font-sans:    'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+  --text-xs:   0.6875rem;   /* 11px */
+  --text-sm:   0.8125rem;   /* 13px */
+  --text-base: 1rem;        /* 16px */
+  --text-md:   1.125rem;    /* 18px */
+  --text-lg:   1.375rem;    /* 22px */
+  --text-xl:   1.75rem;     /* 28px */
+  --text-2xl:  2.25rem;     /* 36px */
+  --text-3xl:  3rem;        /* 48px */
+  --text-4xl:  4.5rem;      /* 72px */
+  --text-hero: clamp(4rem, 9vw, 7.5rem); /* fluid hero headline              */
+
+  --leading-tight:  1.1;
+  --leading-body:   1.7;
+  --leading-loose:  2;
+
+  --tracking-tight:  -0.02em;
+  --tracking-wide:    0.12em;
+  --tracking-hero:   -0.04em;
+
+  /* — Spacing scale (4px base) — */
+  --space-1:   0.25rem;   /*  4px */
+  --space-2:   0.5rem;    /*  8px */
+  --space-3:   0.75rem;   /* 12px */
+  --space-4:   1rem;      /* 16px */
+  --space-5:   1.25rem;   /* 20px */
+  --space-6:   1.5rem;    /* 24px */
+  --space-8:   2rem;      /* 32px */
+  --space-10:  2.5rem;    /* 40px */
+  --space-12:  3rem;      /* 48px */
+  --space-16:  4rem;      /* 64px */
+  --space-20:  5rem;      /* 80px */
+  --space-24:  6rem;      /* 96px */
+  --space-32:  8rem;      /* 128px */
+  --space-40: 10rem;      /* 160px */
+
+  /* — Layout — */
+  --max-width: 1200px;
+  --gutter:     var(--space-8);
+
+  /* — Shadows (soft depth – no hard cutoff) — */
+  --shadow-sm:  0 2px 8px rgba(0,0,0,0.35);
+  --shadow-md:  0 6px 24px rgba(0,0,0,0.45);
+  --shadow-lg:  0 16px 48px rgba(0,0,0,0.55);
+  --shadow-xl:  0 28px 72px rgba(0,0,0,0.65);
+  --shadow-gold-sm: 0 0 0 1px rgba(201, 168, 76, 0.25);
+
+  /* — Transitions — */
+  --ease-out:        cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-in-out:     cubic-bezier(0.65, 0, 0.35, 1);
+  --duration-fast:   0.2s;
+  --duration-base:   0.4s;
+  --duration-slow:   0.6s;
+
+  /* — Motion reveal — */
+  --reveal-translate-y: 28px;
+  --reveal-opacity-start: 0;
+
+  /* — Slab tilt — */
+  --slab-tilt-max: 6deg;   /* maximum 3-D tilt angle on mousemove */
+
+  /* — Scroll parallax — */
+  --parallax-factor: 0.08;  /* tuned in JS; variable exposed for CSS fallback */
+}
+
+
+/* ============================================================
+   1. RESET & BASE
+   ============================================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+
+/* ============================================================
+   2. TYPOGRAPHY
+   ============================================================ */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text-primary);
+}
+
+p {
+  font-family: var(--font-sans);
+  color: var(--color-text-secondary);
+  line-height: var(--leading-body);
+}
+
+/* Eyebrow / overline labels */
+.section-eyebrow,
+.hero__eyebrow {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin-bottom: var(--space-4);
+}
+
+/* Section header group */
+.section-header {
+  text-align: center;
+  margin-bottom: var(--space-16);
+}
+
+.section-title {
+  font-size: var(--text-3xl);
+  margin-bottom: var(--space-4);
+}
+
+.section-subtitle {
+  font-size: var(--text-md);
+  color: var(--color-text-secondary);
+  max-width: 44ch;
+  margin-inline: auto;
+}
+
+
+/* ============================================================
+   3. LAYOUT UTILITIES
+   ============================================================ */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-8);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    color            var(--duration-fast) var(--ease-out),
+    border-color     var(--duration-fast) var(--ease-out),
+    box-shadow       var(--duration-fast) var(--ease-out),
+    transform        var(--duration-fast) var(--ease-out);
+  white-space: nowrap;
+  position: relative;
+}
+
+.btn--primary {
+  background-color: var(--color-gold);
+  color: var(--color-bg);
+  border: 1px solid var(--color-gold);
+}
+
+.btn--primary:hover,
+.btn--primary:focus-visible {
+  background-color: var(--color-gold-muted);
+  border-color: var(--color-gold-muted);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.btn--secondary {
+  background-color: transparent;
+  color: var(--color-text-primary);
+  border: 1px solid rgba(240, 236, 228, 0.3);
+}
+
+.btn--secondary:hover,
+.btn--secondary:focus-visible {
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+  background-color: var(--color-gold-dim);
+  transform: translateY(-1px);
+}
+
+.btn--sm {
+  padding: var(--space-3) var(--space-5);
+  font-size: var(--text-xs);
+}
+
+
+/* ============================================================
+   4. MOTION SYSTEM
+   ============================================================ */
+
+/*
+ * .js-reveal elements start hidden and are revealed by IntersectionObserver
+ * (app.js). All delays are handled via --reveal-delay CSS variable set inline.
+ */
+.js-reveal {
+  opacity: var(--reveal-opacity-start);
+  transform: translateY(var(--reveal-translate-y));
+  /* transition applied only when .is-visible is added, to prevent flash */
+  transition:
+    opacity  var(--duration-slow) var(--ease-out),
+    transform var(--duration-slow) var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.js-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered delay helpers (set by class; JS also sets --reveal-delay inline) */
+.js-reveal--delay-1 { --reveal-delay: 120ms; }
+.js-reveal--delay-2 { --reveal-delay: 240ms; }
+.js-reveal--delay-3 { --reveal-delay: 360ms; }
+.js-reveal--delay-4 { --reveal-delay: 520ms; }
+
+/* Respect prefers-reduced-motion: disable all transitions/animations */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .js-reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+
+/* ============================================================
+   5. HERO
+   ============================================================ */
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding-block: var(--space-32);
+}
+
+/* Architectural grid texture */
+.hero__texture {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(201, 168, 76, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201, 168, 76, 0.04) 1px, transparent 1px);
+  background-size: 80px 80px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Vignette overlay – darkens edges to keep focus on centre */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 50% 50%, transparent 0%, rgba(26,26,26,0.55) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hero__inner {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 900px;
+  padding-inline: var(--gutter);
+}
+
+.hero__eyebrow {
+  margin-bottom: var(--space-6);
+}
+
+.hero__title {
+  font-size: var(--text-hero);
+  letter-spacing: var(--tracking-hero);
+  line-height: var(--leading-tight);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-8);
+}
+
+.hero__title-line {
+  display: block;
+}
+
+/* Thin gold rule under second line */
+.hero__title-line:last-child::after {
+  content: '';
+  display: block;
+  width: 64px;
+  height: 1px;
+  background-color: var(--color-gold);
+  margin: var(--space-5) auto 0;
+}
+
+.hero__subline {
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-12);
+}
+
+.hero__actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+/* Scroll indicator */
+.hero__scroll-indicator {
+  position: absolute;
+  bottom: var(--space-10);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.hero__scroll-line {
+  display: block;
+  width: 1px;
+  height: 48px;
+  background: linear-gradient(to bottom, var(--color-gold), transparent);
+  animation: scrollPulse 2s var(--ease-in-out) infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.2; transform: scaleY(0.6); transform-origin: top; }
+  50%       { opacity: 0.8; transform: scaleY(1);   transform-origin: top; }
+}
+
+.hero__scroll-label {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+
+/* ============================================================
+   6. FLOATING SLAB CARDS
+   ============================================================ */
+.slabs {
+  padding-block: var(--space-40);
+  position: relative;
+}
+
+.slabs__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-8);
+  align-items: start;
+}
+
+/* Staggered vertical offset for the floating look */
+.slab:nth-child(odd)  { margin-top: 0; }
+.slab:nth-child(even) { margin-top: var(--space-16); }
+
+.slab {
+  background-color: var(--color-bg-float);
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition:
+    box-shadow var(--duration-base) var(--ease-out),
+    transform  var(--duration-base) var(--ease-out);
+  /* 3D tilt is applied via inline style from app.js */
+}
+
+.slab:hover {
+  box-shadow: var(--shadow-xl);
+}
+
+.slab__image-wrap {
+  overflow: hidden;
+  aspect-ratio: 3 / 2;
+  background-color: var(--color-surface);
+}
+
+.slab__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--duration-slow) var(--ease-out);
+  /* Placeholder gradient replaces missing image gracefully */
+  background: linear-gradient(135deg, var(--color-surface) 0%, #343430 100%);
+}
+
+.slab:hover .slab__image {
+  transform: scale(1.04);
+}
+
+.slab__body {
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.slab__title {
+  font-size: var(--text-xl);
+  color: var(--color-text-primary);
+}
+
+.slab__desc {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--leading-body);
+}
+
+.slab__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-gold);
+  transition: gap var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
+}
+
+.slab__link::after {
+  content: '→';
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.slab__link:hover::after,
+.slab__link:focus-visible::after {
+  transform: translateX(4px);
+}
+
+.slab__link:hover,
+.slab__link:focus-visible {
+  color: var(--color-text-primary);
+}
+
+
+/* ============================================================
+   7. ARCHITECTURAL DIVIDER
+   ============================================================ */
+.divider {
+  padding-block: var(--space-24);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle tone shift between sections */
+.divider::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(201, 168, 76, 0.03) 50%,
+    transparent
+  );
+  pointer-events: none;
+}
+
+.divider__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.divider__line {
+  display: block;
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(201, 168, 76, 0.35) 40%,
+    rgba(201, 168, 76, 0.35) 60%,
+    transparent
+  );
+}
+
+.divider__line--right {
+  background: linear-gradient(
+    to left,
+    transparent,
+    rgba(201, 168, 76, 0.35) 40%,
+    rgba(201, 168, 76, 0.35) 60%,
+    transparent
+  );
+}
+
+.divider__mark {
+  font-size: var(--text-base);
+  color: var(--color-gold);
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+
+
+/* ============================================================
+   8. TONIGHT'S DROP
+   ============================================================ */
+.drop {
+  padding-block: var(--space-32) var(--space-40);
+  background-color: var(--color-bg-raised);
+  position: relative;
+}
+
+/* Countdown timer */
+.drop__countdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: var(--space-16);
+}
+
+.drop__countdown-label {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-4);
+}
+
+.drop__timer {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+
+.drop__timer-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 72px;
+}
+
+.drop__timer-value {
+  font-family: var(--font-serif);
+  font-size: var(--text-3xl);
+  line-height: 1;
+  color: var(--color-text-primary);
+  letter-spacing: -0.03em;
+}
+
+.drop__timer-name {
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-top: var(--space-2);
+}
+
+.drop__timer-sep {
+  font-family: var(--font-serif);
+  font-size: var(--text-3xl);
+  color: var(--color-gold);
+  line-height: 1;
+  opacity: 0.5;
+  user-select: none;
+}
+
+/* Drop product grid */
+.drop__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-8);
+}
+
+.drop-card {
+  background-color: var(--color-bg-float);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  transition:
+    box-shadow var(--duration-base) var(--ease-out),
+    transform  var(--duration-base) var(--ease-out);
+}
+
+.drop-card:hover {
+  box-shadow: var(--shadow-xl);
+  transform: translateY(-4px);
+}
+
+.drop-card__image-wrap {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 14 / 10;
+  background-color: var(--color-surface);
+}
+
+.drop-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--duration-slow) var(--ease-out);
+  background: linear-gradient(135deg, var(--color-surface) 0%, #343430 100%);
+}
+
+.drop-card:hover .drop-card__image {
+  transform: scale(1.04);
+}
+
+.drop-card__badge {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  padding: var(--space-1) var(--space-3);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background-color: rgba(26,26,26,0.85);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+  backdrop-filter: blur(6px);
+}
+
+.drop-card__badge--low {
+  color: var(--color-gold);
+  border-color: rgba(201, 168, 76, 0.3);
+}
+
+.drop-card__body {
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  flex: 1;
+}
+
+.drop-card__title {
+  font-size: var(--text-xl);
+}
+
+.drop-card__desc {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  flex: 1;
+}
+
+.drop-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-border);
+}
+
+.drop-card__price {
+  font-family: var(--font-serif);
+  font-size: var(--text-2xl);
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+}
+
+
+/* ============================================================
+   9. BRAND PHILOSOPHY
+   ============================================================ */
+.philosophy {
+  padding-block: var(--space-40);
+}
+
+.philosophy__statement {
+  text-align: center;
+  margin-bottom: var(--space-24);
+}
+
+.philosophy__headline {
+  font-size: clamp(var(--text-3xl), 5vw, var(--text-4xl));
+  letter-spacing: var(--tracking-tight);
+  margin-bottom: var(--space-8);
+  max-width: 18ch;
+  margin-inline: auto;
+  line-height: 1.15;
+}
+
+.philosophy__body {
+  font-size: var(--text-md);
+  color: var(--color-text-secondary);
+  max-width: 54ch;
+  margin-inline: auto;
+  line-height: var(--leading-body);
+}
+
+/* Proof cards row */
+.philosophy__proofs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-8);
+}
+
+.philosophy__proof {
+  background-color: var(--color-bg-float);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-10) var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  text-align: center;
+  transition:
+    transform   var(--duration-base) var(--ease-out),
+    box-shadow  var(--duration-base) var(--ease-out);
+}
+
+.philosophy__proof:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-xl);
+}
+
+/* Gentle perpetual float animation on proof cards (set by app.js) */
+.philosophy__proof.is-floating {
+  animation: proofFloat 5s var(--ease-in-out) infinite alternate;
+}
+
+.philosophy__proof:nth-child(2).is-floating { animation-delay: 0.8s; }
+.philosophy__proof:nth-child(3).is-floating { animation-delay: 1.6s; }
+
+@keyframes proofFloat {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-8px); }
+}
+
+.philosophy__proof-icon {
+  display: block;
+  font-size: var(--text-2xl);
+  color: var(--color-gold);
+  line-height: 1;
+  margin-bottom: var(--space-2);
+}
+
+.philosophy__proof-title {
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  font-weight: 400;
+  color: var(--color-text-primary);
+}
+
+.philosophy__proof-desc {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--leading-body);
+}
+
+
+/* ============================================================
+   10. FOOTER
+   ============================================================ */
+.site-footer {
+  border-top: 1px solid var(--color-border);
+  padding-block: var(--space-10);
+}
+
+.site-footer .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+  flex-wrap: wrap;
+}
+
+.site-footer__copy {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  letter-spacing: 0.04em;
+}
+
+.site-footer__nav {
+  display: flex;
+  gap: var(--space-6);
+}
+
+.site-footer__nav a {
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.site-footer__nav a:hover,
+.site-footer__nav a:focus-visible {
+  color: var(--color-gold);
+}
+
+
+/* ============================================================
+   11. RESPONSIVE — tablet + narrow desktop
+   ============================================================ */
+
+/* 1024px — 2-column slabs / drop grid */
+@media (max-width: 1024px) {
+  :root {
+    --gutter: var(--space-6);
+  }
+
+  .slabs__grid,
+  .drop__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .philosophy__proofs {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .slab:nth-child(even) {
+    margin-top: 0;
+  }
+}
+
+/* 768px — single-column, tablet portrait */
+@media (max-width: 768px) {
+  :root {
+    --gutter: var(--space-5);
+    --text-hero: clamp(3rem, 12vw, 5rem);
+  }
+
+  .hero__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero__actions .btn {
+    justify-content: center;
+  }
+
+  .slabs__grid,
+  .drop__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .philosophy__proofs {
+    grid-template-columns: 1fr;
+  }
+
+  .section-title {
+    font-size: var(--text-2xl);
+  }
+
+  .philosophy__proof.is-floating {
+    animation: none;
+  }
+
+  .site-footer .container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
