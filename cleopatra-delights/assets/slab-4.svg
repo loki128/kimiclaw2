@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <rect width="800" height="600" fill="#1a1612"/>
+  <rect x="160" y="120" width="480" height="360" rx="8" fill="rgba(255,255,255,0.04)"/>
+  <line x1="160" y1="300" x2="640" y2="300" stroke="rgba(212,175,55,0.3)" stroke-width="1"/>
+  <line x1="400" y1="120" x2="400" y2="480" stroke="rgba(212,175,55,0.3)" stroke-width="1"/>
+  <text x="400" y="280" font-family="Georgia,serif" font-size="22" fill="rgba(212,175,55,0.7)" text-anchor="middle">Slab 04 — Placeholder</text>
+  <text x="400" y="315" font-family="Arial,sans-serif" font-size="13" fill="rgba(255,255,255,0.35)" text-anchor="middle">Replace with high-resolution product photo</text>
+</svg>
